@@ -1,0 +1,6 @@
+streamlit
+speechrecognition
+gtts
+opencv-python
+numpy
+Pillow
