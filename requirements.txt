@@ -4,3 +4,4 @@ gtts
 opencv-python
 numpy
 Pillow
+gunicorn
