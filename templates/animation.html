@@ -1,0 +1,237 @@
+                                                                                                                                      {% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 10px;
+        margin-top: -30px;
+    }
+
+    .split {
+        flex: 1;
+        background: #222b3c;
+        padding: 15px;
+        border-radius: 10px;
+        color: white;
+        margin: 5px;
+    }
+
+    .left {
+        text-align: center;
+    }
+
+    .right {
+        text-align: center;
+    }
+
+    .input-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mytext {
+        width: 280px;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .mic {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .submit {
+        background-color: #feda6a;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    table {
+        margin: auto;
+        font-size: 18px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: inline;
+        font-size: 20px;
+        font-weight: bold;
+        color: yellow;
+        margin-right: 10px;
+    }
+
+    video {
+        width: 500px;
+        height: 350px;
+        border-radius: 10px;
+        margin-top: 5px;
+        pointer-events: none;
+    }
+</style>
+
+<div class="container">
+    <div class="split left">
+        <h2>Enter Text or Use Mic</h2>
+        <br>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="input-container">
+                <input type="text" name="sen" class="mytext" id="speechToText" placeholder="Type or use the mic...">
+                <button type="button" class="mic" onclick="record()">
+                    <img src="{% static 'assets/mic3.png' %}" height="32px" width="38px" />
+                </button>
+            </div>
+
+            <!-- Language selector -->
+            <br>
+            <label style="color: white;">Select Language:</label>
+            <select id="languageSelector" style="margin-top: 5px; padding: 5px; border-radius: 5px;">
+                <option value="te-IN">Telugu</option>
+                <option value="en-IN">English</option>
+                <option value="hi-IN">Hindi</option>
+                <option value="kn-IN">Kannada</option>
+                <option value="ml-IN">Malayalam</option>
+                <option value="ta-IN">Tamil</option>
+                <option value="mr-IN">Marathi</option>
+                <option value="gu-IN">Gujarati</option>
+                <option value="bn-IN">Bengali</option>
+                <option value="pa-IN">Punjabi</option>
+                <option value="ur-IN">Urdu</option>
+                <option value="or-IN">Odia</option>
+                <option value="as-IN">Assamese</option>
+                <option value="en-IN" selected>English</option>
+            </select>
+
+            <br><br>
+            <button type="button" class="submit" onclick="translateToEnglish()">Translate to English</button>
+            <p id="translatedText" style="color: lightgreen; margin-top: 10px;"></p>
+
+            <br>
+            <input type="submit" name="submit" class="submit" value="Convert">
+        </form>
+        <br>
+        <table cellspacing="10px">
+            <tr>
+                <td><b>The text you entered:</b></td>
+                <td>{{ text }}</td>
+            </tr>
+            <tr>
+                <td><b>Key words in sentence:</b></td>
+                <td>
+                    <ul id="list">
+                        {% for word in words %}
+                        <li>{{ word }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="split right">
+        <h2>Sign Language Animation</h2>
+        <video id="videoPlayer">
+            <source src="" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        <br>
+        <button class="submit" onclick="playPause()">Play / Pause</button>
+    </div>
+</div>
+
+<script>
+    function record() {
+        var recognition = new webkitSpeechRecognition();
+        var lang = document.getElementById('languageSelector').value;
+        recognition.lang = lang;
+        recognition.onresult = function (event) {
+            document.getElementById('speechToText').value = event.results[0][0].transcript;
+        };
+        recognition.start();
+    }
+
+    function translateToEnglish() {
+        const inputText = document.getElementById('speechToText').value;
+
+        fetch(`/translate/?text=${encodeURIComponent(inputText)}`)
+
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('speechToText').value = data.translated;
+                document.getElementById('translatedText').innerText = "Translated to: " + data.translated;
+            })
+            .catch(error => {
+                document.getElementById('translatedText').innerText = "Translation failed.";
+                console.error("Translation error:", error);
+            });
+    }
+
+    function play() {
+        var videoSource = [];
+        var wordsList = document.getElementById("list").getElementsByTagName("li");
+        var videoCount = wordsList.length;
+
+        for (var j = 0; j < videoCount; j++) {
+            var word = wordsList[j].innerText.trim().toLowerCase();
+            var wordFilePath = "{% static 'assets/' %}" + word + ".mp4";
+            videoSource.push(wordFilePath);
+        }
+
+        if (videoSource.length === 0) {
+            alert("No valid animations found!");
+            return;
+        }
+
+        var i = 0;
+        function videoPlay(videoNum) {
+            if (videoNum >= videoSource.length) return;
+
+            var videoElement = document.getElementById("videoPlayer");
+            var wordElement = wordsList[videoNum];
+
+            wordElement.style.color = "#09edc7";
+            wordElement.style.fontSize = "xx-large";
+
+            videoElement.setAttribute("src", videoSource[videoNum]);
+            videoElement.load();
+            videoElement.play();
+
+            videoElement.onended = function () {
+                wordElement.style.color = "yellow";
+                wordElement.style.fontSize = "20px";
+                videoPlay(videoNum + 1);
+            };
+        }
+
+        videoPlay(0);
+    }
+
+    function playPause() {
+        var video = document.getElementById("videoPlayer");
+        if (video.paused) {
+            play();
+        } else {
+            video.pause();
+        }
+    }
+</script>
+
+{% endblock %}

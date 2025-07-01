@@ -1,0 +1,125 @@
+                                                                                                                                                                                       {% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="home-container">
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <!-- Left Side: Full Animation -->
+        <div class="animation-container">
+            <video autoplay loop muted class="hello-animation">
+                <source src="{% static 'assets/Hello.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Right Side: Text Content -->
+        <div class="text-container">
+            <h1 class="welcome-title">Welcome to Audio to Sign Language Translator</h1>
+            <p class="quote-text">
+                "The beauty of sign language is that it allows the deaf to see sound."
+                <br><span class="author">- Marlee Matlin</span>
+            </p>
+        </div>
+    </div>
+
+    <button onclick="location.href='{% url 'animation' %}'" class="start-btn">
+        Click to Start
+    </button>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    /* Main Container */
+    .home-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background-color: #292f42;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    /* Main Content Layout */
+    .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
+
+    /* Left Side: Full Animation */
+    .animation-container {
+        flex: 1;
+        max-width: 400px;
+    }
+
+    .hello-animation {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    /* Right Side: Text Content */
+    .text-container {
+        flex: 1;
+        text-align: left;
+        max-width: 400px;
+    }
+
+    .welcome-title {
+        font-size: 28px;
+        color: #feda6a;
+        margin-bottom: 10px;
+    }
+
+    .tagline {
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .quote-text {
+        font-size: 18px;
+        color: #dddddd;
+        font-style: italic;
+    }
+
+    .author {
+        font-size: 16px;
+        font-weight: bold;
+        color: #feda6a;
+    }
+
+    /* Button */
+    .start-btn {
+        background-color: #feda6a;
+        color: #292f42;
+        font-size: 18px;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 30px;
+        transition: background-color 0.3s ease;
+    }
+
+    .start-btn:hover {
+        background-color: #ffcc33;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .content-wrapper {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .text-container {
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}

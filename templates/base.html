@@ -1,0 +1,154 @@
+                                                                                                                                                                                               {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio To Sign Language</title>
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1e1e2e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #feda6a;
+            color: #1e1e2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            gap: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #33384e;
+            padding: 12px 0;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 18px;
+            padding: 12px 25px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #feda6a;
+            color: #1e1e2e;
+            transform: scale(1.05);
+        }
+
+        /* Content Wrapper */
+        .content {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #292f42;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #feda6a;
+            color: #1e1e2e;
+            font-size: 18px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #ffffff;
+            color: #1e1e2e;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar a {
+                display: block;
+                margin: 5px 0;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header img {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header with Logo -->
+    <div class="header">
+      <img src="{% static 'assets/icon.webp' %}" alt="Audio Icon">
+      <h1>Audio to Sign Language Translator</h1>
+  </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'animation' %}">Convertor</a>
+        <a href="{% url 'about' %}">About</a> <!-- Added About Page -->
+        <a href="{% url 'contact' %}">Contact</a> <!-- Added Contact Page -->
+        
+        {% if not user.is_authenticated %}
+            <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Log Out</a>
+        {% else %}
+            <a href="{% url 'login' %}">Log In</a>
+        {% endif %}
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+                                                                                                                                                                                                                    {% extends 'base.html' %}
+
+{% block content %}
+<div class="contact-container">
+    <h2>Contact Us</h2>
+    <p class="description">Have any queries or feedback? Feel free to reach out!</p>
+
+    <div class="contact-info">
+        <div class="contact-item">
+            <strong>Email:</strong> <a href="mailto:audio2sl@gmail.com">audio2sl@gmail.com</a>
+        </div>
+        <div class="contact-item">
+            <strong>Twitter:</strong> <a href="https://twitter.com/audio2sl" target="_blank">@audio2sl</a>
+        </div>
+        <div class="contact-item">
+            <strong>Phone:</strong> <a href="tel:+917925831703">(079) 2583 1703</a>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+        <h3>Send us a message</h3>
+        <!-- Success message -->
+        <div id="successMessage" style="display:none; margin-bottom: 15px; color: #00ff88; font-weight: bold;">
+            ✅ Your message has been sent!
+        </div>
+
+        <form action="" method="post" id="contactForm">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <p class="thank-you">Thank you for visiting our website!</p>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .contact-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #292f42;
+        color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    h2 {
+        color: #feda6a;
+        font-size: 26px;
+    }
+
+    .description {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .contact-info {
+        margin-bottom: 20px;
+    }
+
+    .contact-item {
+        font-size: 18px;
+        margin: 8px 0;
+    }
+
+    .contact-item a {
+        color: #feda6a;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .contact-item a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+    .contact-form h3 {
+        margin-bottom: 15px;
+        font-size: 20px;
+        color: #feda6a;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .contact-form button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #feda6a;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .contact-form button:hover {
+        background-color: #ffffff;
+        color: #292f42;
+    }
+
+    .thank-you {
+        margin-top: 20px;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+</style>
+
+<!-- JavaScript to show green message after form submission -->
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Show the green success message
+        document.getElementById('successMessage').style.display = 'block';
+
+        // Optionally reset form fields
+        this.reset();
+    });
+</script>
+
+{% endblock %}

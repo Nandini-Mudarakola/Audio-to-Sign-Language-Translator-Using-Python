@@ -1,0 +1,133 @@
+                                                                                                                                                   {% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="about-wrapper">
+
+
+    <!-- About Section -->
+    <div class="about-container">
+        <h2>About Us</h2>
+        <p class="intro-text">
+            We are a passionate team dedicated to making a difference in society through innovative technology.
+            Our mission is to bridge communication gaps and make the world more inclusive.
+        </p>
+
+        <h3 class="version">Version 1.0.0</h3>
+        
+        <hr>
+
+        <h2>Meet Our Team</h2>
+        <div class="team-container">
+            <div class="team-member">Vandana Nadimpalli</div>
+            <div class="team-member">Nandini Mudarakola</div>
+            <div class="team-member">Satya Prakash</div>
+            <div class="team-member">Bala Sameer</div>
+        </div>
+
+        <hr>
+
+        <p class="thank-you">Thank you for visiting our website!</p>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    /* Wrapper */
+    .about-wrapper {
+        text-align: center;
+    }
+
+    /* Title Section */
+    .team-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;           /* No wrapping */
+    overflow-x: auto;            /* Scroll if not enough space */
+    white-space: nowrap;         /* Keep content in one line */
+    margin-top: 15px;
+    padding-bottom: 10px;        /* Optional: spacing for scroll */
+}
+
+
+
+    .logo {
+        width: 50px;
+        height: 50px;
+        margin-right: 15px;
+    }
+
+    .title-text {
+        font-size: 26px;
+        font-weight: bold;
+        color: #292f42;
+    }
+
+    /* About Section */
+    .about-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #292f42;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    h2 {
+        color: #feda6a;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .intro-text {
+        font-size: 18px;
+        color: #dddddd;
+        margin-bottom: 15px;
+    }
+
+    .version {
+        font-size: 20px;
+        font-weight: bold;
+        color: #feda6a;
+    }
+
+    /* Team Section */
+    .team-container {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    .team-member {
+        background-color: #3b3f4a;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 18px;
+        color: #feda6a;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .team-member:hover {
+        transform: scale(1.05);
+    }
+
+    .thank-you {
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffffff;
+        margin-top: 20px;
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background: #feda6a;
+        margin: 20px 0;
+    }
+</style>
+{% endblock %}

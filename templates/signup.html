@@ -1,0 +1,175 @@
+                                                                                                                                                                                           {% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+  body {
+    background-color: #1e1e2f;
+  }
+
+  .form-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 50px;
+    background-color: #1e1e2f; /* Removed outer box styling */
+  }
+
+  .form-box {
+    background-color: #181829; /* Only form box styling remains */
+    width: 100%;
+    max-width: 450px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .form-box h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 25px;
+  }
+
+  .form-box label {
+    font-weight: 500;
+    color: #fff;
+  }
+
+  .form-box input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 8px;
+    background-color: #eee;
+    font-size: 16px;
+  }
+
+  .form-box .password-wrapper {
+    position: relative;
+  }
+
+  .form-box .password-wrapper img.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  .form-text {
+    color: #ffc107;
+    font-size: 13px;
+    margin-top: 4px;
+    display: none;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .form-box button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #f4c542;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .form-box button:hover {
+    background-color: #ddb42b;
+  }
+</style>
+
+<div class="form-container">
+  <div class="form-box">
+    <h2>Sign Up</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label>{{ field.label_tag }}</label>
+
+          {% if field.name == 'password1' or field.name == 'password2' %}
+            <div class="password-wrapper">
+              {{ field }}
+              <img src="{% static 'assets/eye.jpg' %}" class="eye-icon" onclick="togglePassword(this)">
+            </div>
+          {% else %}
+            {{ field }}
+          {% endif %}
+
+          {% for error in field.errors %}
+            <div class="error-message">{{ error }}</div>
+          {% endfor %}
+
+          {% if field.name == 'password1' %}
+            <div class="form-text" id="password-hint">
+              Password must be at least 8 characters, not numeric, not too common, and not similar to username.
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+        <div class="error-message text-center">
+          {% for error in form.non_field_errors %}
+            ⚠ {{ error }}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <button type="submit">Create Account</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function togglePassword(icon) {
+    const input = icon.previousElementSibling;
+    if (input.type === "password") {
+      input.type = "text";
+      icon.style.opacity = 0.5;
+    } else {
+      input.type = "password";
+      icon.style.opacity = 1;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const pass1 = document.getElementById("id_password1");
+    const username = document.getElementById("id_username");
+    const hint = document.getElementById("password-hint");
+
+    if (pass1 && username && hint) {
+      pass1.addEventListener("input", function () {
+        const password = pass1.value;
+        const user = username.value || "";
+        const isCommon = ["password", "12345678", "qwerty", "abc123"].includes(password.toLowerCase());
+
+        if (
+          password.length < 8 ||
+          password === user ||
+          /^\d+$/.test(password) ||
+          isCommon
+        ) {
+          hint.style.display = "block";
+        } else {
+          hint.style.display = "none";
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}
